@@ -10,10 +10,10 @@ export default class PortfolioContainer extends Component {
             pageTitle: "Welcome to my portfolio",
             isLoading: false,
             data: [
-                { title: "This", category: "Pog" },
-                { title: "Is", category: "POGGSS" },
-                { title: "Very", category: "POG?" },
-                { title: "POGGERS", category: "Pog" }
+                { title: "Python", category: "Automation", slug: 'python' },
+                { title: "Javascript", category: "Web", slug: 'javascript' },
+                { title: "HTML & CSS", category: "Web", slug: 'html-css' },
+                { title: "Swift", category: "Apple Dev", slug: 'swift' }
             ]
         };
 
@@ -30,7 +30,7 @@ export default class PortfolioContainer extends Component {
 
     portfolioItems() {
         return this.state.data.map(item => {
-            return <PortfolioItem title={item.title} url={"google.com"}/>;
+            return <PortfolioItem title={item.title} url={"google.com"} slug={item.slug}/>;
         })
     }
 
@@ -43,9 +43,9 @@ export default class PortfolioContainer extends Component {
             <div>
                 <h2>{this.state.pageTitle}</h2>
 
-                <button onClick={() => this.handleFilter('Pog')}>Pog</button>
-                <button onClick={() => this.handleFilter('POGGSS')}>POGGSS</button>
-                <button onClick={() => this.handleFilter('POG?')}>POG?</button>
+                <button onClick={() => this.handleFilter('Web')}>Web</button>
+                <button onClick={() => this.handleFilter('Apple Dev')}>Apple Dev</button>
+                <button onClick={() => this.handleFilter('Automation')}>Automation</button>
 
                 {this.portfolioItems()}
             </div>
