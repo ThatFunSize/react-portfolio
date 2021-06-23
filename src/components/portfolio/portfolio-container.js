@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from 'axios';
 
 import PortfolioItem from "./portfolio-item";
 
@@ -9,12 +10,7 @@ export default class PortfolioContainer extends Component {
         this.state = {
             pageTitle: "Welcome to my portfolio",
             isLoading: false,
-            data: [
-                { title: "Python", category: "Automation", slug: 'python' },
-                { title: "Javascript", category: "Web", slug: 'javascript' },
-                { title: "HTML & CSS", category: "Web", slug: 'html-css' },
-                { title: "Swift", category: "Apple Dev", slug: 'swift' }
-            ]
+            data: []
         };
 
         this.handleFilter = this.handleFilter.bind(this);
@@ -28,10 +24,31 @@ export default class PortfolioContainer extends Component {
         })
     }
 
+    getPortfolioItems() {
+        axios
+          .get("https://nesetkablan.devcamp.space/portfolio/portfolio_items")
+          .then(response => {
+            this.setState({
+                data: response.data.portfolio_items
+            })
+          })
+          .catch(error => {
+            console.log(error)
+          })
+    }
+
     portfolioItems() {
+        
         return this.state.data.map(item => {
-            return <PortfolioItem title={item.title} url={"google.com"} slug={item.slug}/>;
+            return <PortfolioItem 
+            key={item.id} 
+            item={item}
+            />;
         })
+    }
+
+    componentDidMount() {
+        this.getPortfolioItems();
     }
 
     render() {
@@ -47,7 +64,8 @@ export default class PortfolioContainer extends Component {
                 <button onClick={() => this.handleFilter('Apple Dev')}>Apple Dev</button>
                 <button onClick={() => this.handleFilter('Automation')}>Automation</button>
 
-                {this.portfolioItems()}
+                <div className="portfolio-items-wrapper">{this.portfolioItems()}</div>
+                
             </div>
         )
     }
