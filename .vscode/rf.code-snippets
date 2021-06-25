@@ -1,9 +1,15 @@
 {
-	"Fill In": {
+	"rf": {
 		"prefix": ["rf"],
-		"body": ["import React from 'react'; \n\nexport default function() {\n\treturn (\n\t\t<div>\n\t\t\t${1:text}\n\t\t</div>\n\t);\n}"],
+		"body": ["import React from 'react'; \n\nexport default function() {\n\treturn (\n\t\t<div>\n\t\t\t\n\t\t</div>\n\t);\n}"],
 		"description": "Fill in"
-	  }
+	  },
+
+	"rc": {
+		"prefix": ["rc"],
+		"body": ["import React, { Component } from 'react'; \n\nexport default class extends Component {\n\treturn() {\n\t\treturn (\n\t\t\t<div>\n\t\t\t\t\n\t\t\t</div>\n\t\t);\n\t}\n}"],
+		"description": "Fill in"
+	}
 	// Place your ModuleSection workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
 	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
 	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
