@@ -4,12 +4,11 @@
   "description": "Poggers portfolio app built in React",
   "scripts": {
     "preinstall": "npm set audit false",
-    "*moaning-sounds*": "webpack-dev-server --config webpack/dev.config.js --watch",
+    "start": "webpack-dev-server --config webpack/dev.config.js --watch",
     "build": "cross-env NODE_ENV=production webpack --config webpack/prod.config.js --progress --display-error-details --color",
     "heroku-postbuild": "npm run pain",
     "precommit": "eslint src",
-    "prod": "NODE_ENV=production node server.js",
-    "moan": "npm run moan"
+    "prod": "NODE_ENV=production node server.js"
   },
   "repository": {
     "type": "git",
