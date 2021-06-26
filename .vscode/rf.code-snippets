@@ -7,7 +7,7 @@
 
 	"rc": {
 		"prefix": ["rc"],
-		"body": ["import React, { Component } from 'react'; \n\nexport default class extends Component {\n\treturn() {\n\t\treturn (\n\t\t\t<div>\n\t\t\t\t\n\t\t\t</div>\n\t\t);\n\t}\n}"],
+		"body": ["import React, { Component } from 'react'; \n\nexport default class extends Component {\n\trender() {\n\t\treturn (\n\t\t\t<div>\n\t\t\t\t\n\t\t\t</div>\n\t\t);\n\t}\n}"],
 		"description": "Fill in"
 	}
 	// Place your ModuleSection workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
