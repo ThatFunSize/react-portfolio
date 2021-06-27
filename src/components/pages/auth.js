@@ -3,6 +3,22 @@ import Login from "../auth/login";
 import loginImg from "../../../static/assets/images/auth/login.jpeg";
 
 export default class Auth extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleSuccesfulAuth = this.handleSuccesfulAuth.bind(this);
+        this.handleUnsuccesfulAuth = this.handleUnsuccesfulAuth.bind(this)
+    }
+    
+    handleSuccesfulAuth() {
+        this.props.handleSuccesfulLogin();
+        this.props.history.push("/");
+    }
+
+    handleUnsuccesfulAuth() {
+        this.props.handleUnsuccesfulLogin
+    }
+
     render() {
         return (
             <div className="auth-page-wrapper">
@@ -11,10 +27,13 @@ export default class Auth extends Component {
                    backgroundImage: `url(${loginImg})`
                }}
                
-               >???????</div>
+               />
 
                <div className="right-column">
-                   <Login />
+                   <Login 
+                    handleSuccesfulAuth={this.handleSuccesfulAuth}
+                    handleUnsuccesfulAuth={this.handleUnsuccesfulAuth}
+                   />
                </div>
             </div> 
         );
