@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 
 import NavigationContainer from './navigation/navigation-container';
@@ -15,6 +10,8 @@ import Blog from "./pages/blog";
 import PortfolioDetail from "./portfolio/portfolio-detail";
 import Auth from "./pages/auth";
 import NoMatch from "./pages/no-match";
+import Axios from 'axios';
+import { response } from 'express';
 
 export default class App extends Component {
   constructor(props) {
@@ -38,6 +35,17 @@ export default class App extends Component {
     this.setState({
       loggedInStatus: "NOT_LOGGED_IN"
     })
+  }
+
+  checkLoginStatus() {
+    return axios.get("https://api.devcamp.space/logged_in", {
+        withCredentials: true
+      });
+    console.log("logged in return", response);
+  }
+
+  componentDidMount() {
+    this.checkLoginStatus();
   }
 
   render() {

@@ -12,6 +12,7 @@ module.exports = {
 
     modules: ['node_modules'],
   },
+  node: { fs: 'empty', net: 'empty' },
 
   module: {
     rules: [
