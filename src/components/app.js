@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-
+import axios from 'axios';
 
 import NavigationContainer from './navigation/navigation-container';
 import Home from "./pages/home";
@@ -10,7 +10,7 @@ import Blog from "./pages/blog";
 import PortfolioDetail from "./portfolio/portfolio-detail";
 import Auth from "./pages/auth";
 import NoMatch from "./pages/no-match";
-import Axios from 'axios';
+
 import { response } from 'express';
 
 export default class App extends Component {
@@ -38,10 +38,13 @@ export default class App extends Component {
   }
 
   checkLoginStatus() {
-    return axios.get("https://api.devcamp.space/logged_in", {
+    return axios
+      .get("https://api.devcamp.space/logged_in", {
         withCredentials: true
-      });
-    console.log("logged in return", response);
+      }).then(response => {
+        console.log("logged_in return", response);
+      })
+    
   }
 
   componentDidMount() {
