@@ -11,8 +11,6 @@ import PortfolioDetail from "./portfolio/portfolio-detail";
 import Auth from "./pages/auth";
 import NoMatch from "./pages/no-match";
 
-import { response } from 'express';
-
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -42,8 +40,25 @@ export default class App extends Component {
       .get("https://api.devcamp.space/logged_in", {
         withCredentials: true
       }).then(response => {
-        console.log("logged_in return", response);
+        const loggedIn = response.data.logged_in;
+        const loggedInStatus = this.state.loggedInStatus;
+
+        if (loggedIn && loggedInStatus === "LOGGED_IN") {
+          return loggedIn;
+        } else if (loggedIn && loggedInStatus === "NOT_LOGGED_IN") {
+          this.setState({
+            loggedInStatus: "LOGGED_IN"
+          });
+        } else if (!loggedIn && loggedInStatus === "LOGGED_IN") {
+          this.setState({
+            loggedInStatus: "NOT_LOGGED_IN"
+          });
+        } 
       })
+      .catch(error => {
+        console.log("error", error);
+      });
+      
     
   }
 
