@@ -23,13 +23,15 @@ module.exports = {
       },
 
       {
-        type: 'javascript/auto',
-        test: /\.(jpg|png|gif|eot|svg|ttf|woff|woff2|jpeg)$/,
-        loader:'url-loader?limit=8192&name=images/[name].[ext]',
-        options: {
-          name: '[path][name].[ext]',
-          publicPath: '/',
-        },
+        test: /\.(png|jpg|gif|jpeg)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+            },
+          },
+        ],
       },
 
       {
