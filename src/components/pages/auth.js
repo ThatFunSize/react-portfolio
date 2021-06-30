@@ -1,41 +1,41 @@
-import React, { Component } from "react"; 
+import React, { Component } from "react";
 import Login from "../auth/login";
 import loginImg from "../../../static/assets/images/auth/login.jpeg";
 
 export default class Auth extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.handleSuccesfulAuth = this.handleSuccesfulAuth.bind(this);
-        this.handleUnsuccesfulAuth = this.handleUnsuccesfulAuth.bind(this)
-    }
-    
-    handleSuccesfulAuth() {
-        this.props.handleSuccesfulLogin();
-        this.props.history.push("/");
-    }
+    this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
+    this.handleUnsuccessfulAuth = this.handleUnsuccessfulAuth.bind(this);
+  }
 
-    handleUnsuccesfulAuth() {
-        this.props.handleUnsuccesfulLogin();
-    }
+  handleSuccessfulAuth() {
+    this.props.handleSuccessfulLogin();
+    this.props.history.push("/");
+  }
 
-    render() {
-        return (
-            <div className="auth-page-wrapper">
-               <div className="left-column"
-               style={{
-                   backgroundImage: `url(${loginImg})`
-               }}
-               
-               />
+  handleUnsuccessfulAuth() {
+    this.props.handleUnsuccessfulLogin();
+  }
 
-               <div className="right-column">
-               <Login 
-                    handleSuccesfulAuth={this.handleSuccesfulAuth}
-                    handleUnsuccesfulAuth={this.handleUnsuccesfulAuth}
-                   />
-               </div>
-            </div> 
-        );
-    }
+  render() {
+    return (
+      <div className="auth-page-wrapper">
+        <div
+          className="left-column"
+          style={{
+            backgroundImage: `url(${loginImg})`
+          }}
+        />
+
+        <div className="right-column">
+          <Login
+            handleSuccessfulAuth={this.handleSuccessfulAuth}
+            handleUnsuccessfulAuth={this.handleUnsuccessfulAuth}
+          />
+        </div>
+      </div>
+    );
+  }
 }
