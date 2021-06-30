@@ -1,20 +1,40 @@
 import React, { Component } from 'react'; 
 import axios from 'axios';
 
+import PortfolioSidebarList from '../portfolio/portfolio-sidebar-list';
+import PortfolioForm from '../portfolio/portfolio-form';
+
 export default class PortfolioManager extends Component {
     constructor() {
         super();
 
         this.state = {
             portfolioItems: []
-        }
+        };
+
+        this.handleSuccesfulFormSubmission = this.handleSuccesfulFormSubmission.bind(this);
+        this.handleFormSubmissionError = this.handleFormSubmissionError.bind(this);
+    }
+
+    handleSuccesfulFormSubmission(portfolioItem) {
+        /* 
+        -ToDo-
+            Update the portfolioItem state
+            Add it to the list
+        */
+    }
+
+    handleFormSubmissionError(error) {
+        console.log("form submission error", error)
     }
 
     getPortfolioItems() {
         axios.get("https://nesetkablan.devcamp.space/portfolio/portfolio_items", { 
             withCredentials: true 
         }).then( response => {
-            console.log("response! ", response);
+            this.setState({
+                portfolioItems: [...response.data.portfolio_items]
+            });
         }).catch( error => {
             console.log("error!", error);
         })
@@ -28,11 +48,14 @@ export default class PortfolioManager extends Component {
         return (
             <div className="portfolio-manager-wrapper">
                 <div className="left-column">
-                    <h1>left</h1>
+                    <PortfolioForm 
+                        handleSuccesfulFormSubmission={this.handleSuccesfulFormSubmission}
+                        handleFormSubmissionError={this.handleFormSubmissionError}
+                    />
                 </div>
 
                 <div className="right-column">
-                    <h1>right</h1>
+                    <PortfolioSidebarList data={this.state.portfolioItems}/>
                 </div>
             </div>
         );
