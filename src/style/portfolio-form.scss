@@ -7,4 +7,31 @@
     input {
         margin-bottom: 0px;
     }
+
+    .image-uploaders {
+        .portfolio-manager-img-wrapper {
+            img {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+                border-radius: 5px;
+            }
+
+            .image-removal-link {
+                display: flex;
+                justify-content: center;
+
+                a {
+                    font-weight: 900;
+                    color: $warning;
+                    cursor: pointer;
+                    transition: 0.5s ease-in-out;
+
+                    &:hover {
+                        color: $warning-hover;
+                    }
+                }
+            }
+        }
+    }
 }

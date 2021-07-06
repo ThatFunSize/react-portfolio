@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import DropzoneComponent from "react-dropzone-component";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "../../../node_modules/react-dropzone-component/styles/filepicker.css";
 import "../../../node_modules/dropzone/dist/min/dropzone.min.css";
@@ -17,7 +18,10 @@ export default class PortfolioForm extends Component {
       url: "",
       thumb_image: "",
       banner_image: "",
-      logo: ""
+      logo: "",
+      editMode: false,
+      apiUrl: "https://nesetkablan.devcamp.space/portfolio/portfolio_items",
+      apiAction: 'post'
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -27,11 +31,30 @@ export default class PortfolioForm extends Component {
     this.handleThumbDrop = this.handleThumbDrop.bind(this);
     this.handleBannerDrop = this.handleBannerDrop.bind(this);
     this.handleLogoDrop = this.handleLogoDrop.bind(this);
+    this.deleteImage = this.deleteImage.bind(this);
 
     this.thumbRef = React.createRef();
     this.bannerRef = React.createRef();
     this.logoRef = React.createRef();
   }
+
+  deleteImage(imageType) {
+    axios
+      .delete(
+        `https://api.devcamp.space/portfolio/delete-portfolio-image/${this.state
+          .id}?image_type=${imageType}`, 
+          { withCredentials: true }
+      )
+      .then(response => {
+        this.setState({
+          [`${imageType}_url`]: ""
+        })
+      })
+      .catch(error => {
+        console.log("deleteImage error", error);
+      })
+  }
+
 
   componentDidUpdate() {
     if (Object.keys(this.props.portfolioToEdit).length > 0) {
@@ -55,7 +78,13 @@ export default class PortfolioForm extends Component {
         description: description || "",
         category: category || "Software",
         position: position || "",
-        url: url || ""
+        url: url || "",
+        editMode: true,
+        apiUrl: `https://nesetkablan.devcamp.space/portfolio/portfolio_items/${id}`,
+        apiAction: 'patch',
+        thumb_image_url: thumb_image_url || "",
+        banner_image_url: banner_image_url || "",
+        logo_url: logo_url || ""
       })
     }
   }
@@ -124,14 +153,18 @@ handleLogoDrop() {
   }
 
   handleSubmit(event) {
-    axios
-      .post(
-        "https://nesetkablan.devcamp.space/portfolio/portfolio_items",
-        this.buildForm(),
-        { withCredentials: true }
-      )
+    axios({
+        method: this.state.apiAction,
+        url: this.state.apiUrl,
+        data: this.buildForm(),
+        withCredentials: true
+    })
       .then(response => {
-        this.props.handleSuccesfulFormSubmission(response.data.portfolio_item);
+        if (this.state.editMode) {
+            this.props.handleEditFormSubmission();
+        } else {
+            this.props.handleNewFormSubmission(response.data.portfolio_item);
+        }
 
         this.setState({
             name: "",
@@ -141,7 +174,10 @@ handleLogoDrop() {
             url: "",
             thumb_image: "",
             banner_image: "",
-            logo: ""
+            logo: "",
+            editMode: false,
+            apiUrl: "https://nesetkablan.devcamp.space/portfolio/portfolio_items",
+            apiAction: 'post'
           });
 
         [this.thumbRef, this.bannerRef, this.logoRef].forEach(ref => {
@@ -207,36 +243,77 @@ handleLogoDrop() {
           </div>
 
           <div className="image-uploaders three-column">
+            {this.state.thumb_image_url && this.state.editMode ? (
+                <div className="portfolio-manager-img-wrapper">
+                <img src={this.state.thumb_image_url} /> 
+
+                <div className="image-removal-link">
+                <a onClick={() => this.deleteImage("thumb_image")}>
+                  <FontAwesomeIcon icon="ban"/>
+                 ‍ Remove
+                </a>
+                </div>
+
+                </div>
+            )  :  (
             <DropzoneComponent
                 ref={this.thumbRef}
                 config={this.componentConfig()}
                 djsConfig={this.djsConfig()}
                 eventHandlers={this.handleThumbDrop()}
             >
-              <div className="dz-message">Thumbnail</div>
+              <div className="dz-message">Upload Thumbnail Image</div>
             </DropzoneComponent>
+            )}
 
+            {this.state.banner_image_url && this.state.editMode ? (
+                <div className="portfolio-manager-img-wrapper">
+                <img src={this.state.banner_image_url} /> 
+
+                <div className="image-removal-link">
+                <a onClick={() => this.deleteImage("banner_image")}>
+                  <FontAwesomeIcon icon="ban"/>
+                 ‍ Remove
+                </a>
+                </div>
+
+                </div>
+            )  :  (
             <DropzoneComponent
                 ref={this.bannerRef}
                 config={this.componentConfig()}
                 djsConfig={this.djsConfig()}
                 eventHandlers={this.handleBannerDrop()}
             >
-              <div className="dz-message">Banner</div>
+              <div className="dz-message">Upload Banner Image</div>
             </DropzoneComponent>
+            )}
 
+
+            {this.state.logo_url && this.state.editMode ? (
+            <div className="portfolio-manager-img-wrapper">
+            <img src={this.state.logo_url} />
+
+            <div className="image-removal-link">
+              <a onClick={() => this.deleteImage("logo")}>
+                <FontAwesomeIcon icon="ban"/>
+               ‍ Remove
+              </a>
+            </div>
+ 
+            </div>
+            )  :  (
             <DropzoneComponent
                 ref={this.logoRef}
                 config={this.componentConfig()}
                 djsConfig={this.djsConfig()}
                 eventHandlers={this.handleLogoDrop()}
             >
-              <div className="dz-message">Logo</div>
+              <div className="dz-message">Upload Logo Image</div>
             </DropzoneComponent>
-            
+            )}
             
           </div>
-
           <div>
             <button className="btn" type="submit">Save</button>
           </div>
