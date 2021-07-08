@@ -19,6 +19,9 @@ export default class BlogDetail extends Component {
             )
             .then(response => {
                 console.log("get blog item", response);
+                this.setState({
+                    blogItem: response.data.portfolio_blog
+                })
             })
             .catch(error => {
                 console.log("get blog item error", error);
@@ -28,12 +31,28 @@ export default class BlogDetail extends Component {
     componentDidMount() {
         this.getBlogItem(); 
     }
-
+    
     render() {
-        console.log("current Id", this.state.currentId);
+        const {
+            title,
+            content,
+            featured_image_url,
+            blog_status
+        } = this.state.blogItem;
+
         return (
-            <div>
-                <h1>BlogDetail</h1>
+            <div className="blog-container">
+                <div className="content-container">
+                    <h1>{title}</h1>
+
+                    <div className="featured-image-wrapper">
+                        <img src={featured_image_url} />
+                    </div>
+
+                    <div className="content">
+                        {content}
+                    </div>
+                </div>
             </div>
         );
     }
