@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import DropzoneComponent from 'react-dropzone-component';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import RichTextEditor from '../forms/rich-text-editor';
 
@@ -9,6 +10,7 @@ export default class BlogForm extends Component {
     super(props);
 
     this.state = {
+      id: '',
       title: '',
       blog_status: '',
       content: '',
@@ -25,6 +27,16 @@ export default class BlogForm extends Component {
     this.handleFeaturedImageDrop = this.handleFeaturedImageDrop.bind(this);
 
     this.featuredImageRef = React.createRef();
+  }
+
+  componentWillMount() {
+    if (this.props.editMode) {
+      this.setState({
+        id: this.props.blog.id,
+        title: this.props.blog.title,
+        status: this.props.blog.status,
+      });
+    }
   }
 
   componentConfig() {
@@ -59,12 +71,12 @@ export default class BlogForm extends Component {
     formData.append('portfolio_blog[blog_status]', this.state.blog_status);
     formData.append('portfolio_blog[content]', this.state.content);
 
-    //if (this.state.featured_image) {
-    formData.append(
-      'portfolio_blog[featured_image]',
-      this.state.featured_image
-    );
-    //}
+    if (this.state.featured_image) {
+      formData.append(
+        'portfolio_blog[featured_image]',
+        this.state.featured_image
+      );
+    }
 
     return formData;
   }
@@ -127,18 +139,36 @@ export default class BlogForm extends Component {
         <div className="one-column">
           <RichTextEditor
             handleRichTextEditorChange={this.handleRichTextEditorChange}
+            editMode={this.props.editMode}
+            contentToEdit={
+              this.props.editMode && this.props.blog.content
+                ? this.props.blog.content
+                : null
+            }
           />
         </div>
 
         <div className="image-uploaders">
-          <DropzoneComponent
-            config={this.componentConfig()}
-            djsConfig={this.djsConfig()}
-            eventHandlers={this.handleFeaturedImageDrop()}
-            ref={this.featuredImageRef}
-          >
-            <div className="dz-message">Featured Image</div>
-          </DropzoneComponent>
+          {this.props.editMode && this.props.blog.featured_image_url ? (
+            <div className="portfolio-manager-img-wrapper">
+              <img src={this.props.blog.featured_image_url} />
+
+              <div className="image-removal-link">
+                <a>
+                  <FontAwesomeIcon icon="ban" />‍ Remove
+                </a>
+              </div>
+            </div>
+          ) : (
+            <DropzoneComponent
+              config={this.componentConfig()}
+              djsConfig={this.djsConfig()}
+              eventHandlers={this.handleFeaturedImageDrop()}
+              ref={this.featuredImageRef}
+            >
+              <div className="dz-message">Featured Image</div>
+            </DropzoneComponent>
+          )}
         </div>
 
         <button className="btn">Save</button>

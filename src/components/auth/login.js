@@ -1,14 +1,16 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React, { Component } from 'react';
+import axios from 'axios';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: "",
-      password: "",
-      errorText: ""
+      email: '',
+      password: '',
+      errorText: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -18,35 +20,35 @@ export default class Login extends Component {
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
-      errorText: ""
+      errorText: '',
     });
   }
 
   handleSubmit(event) {
     axios
       .post(
-        "https://api.devcamp.space/sessions",
+        'https://api.devcamp.space/sessions',
         {
           client: {
             email: this.state.email,
-            password: this.state.password
-          }
+            password: this.state.password,
+          },
         },
         { withCredentials: true }
       )
       .then(response => {
-        if (response.data.status === "created") {
+        if (response.data.status === 'created') {
           this.props.handleSuccessfulAuth();
         } else {
           this.setState({
-            errorText: "Wrong email or password"
+            errorText: 'Wrong email or password',
           });
           this.props.handleUnsuccessfulAuth();
         }
       })
       .catch(error => {
         this.setState({
-          errorText: "An error occurred"
+          errorText: 'An error occurred',
         });
         this.props.handleUnsuccessfulAuth();
       });
@@ -57,29 +59,36 @@ export default class Login extends Component {
   render() {
     return (
       <div>
-        <h1>LOGIN TO ACCESS YOUR DASHBOARD</h1>
+        <h1>Login To Access Your Dashboard</h1>
 
         <div>{this.state.errorText}</div>
 
         <form onSubmit={this.handleSubmit}>
-          <input
-            type="email"
-            name="email"
-            placeholder="Your email"
-            value={this.state.email}
-            onChange={this.handleChange}
-          />
+          <div className="portfolio-form-wrapper">
+            <div className="two-column">
+              <input
+                type="email"
+                name="email"
+                placeholder="Your email"
+                value={this.state.email}
+                onChange={this.handleChange}
+              />
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Your password"
-            value={this.state.password}
-            onChange={this.handleChange}
-          />
+              <input
+                type="password"
+                name="password"
+                placeholder="Your password"
+                value={this.state.password}
+                onChange={this.handleChange}
+              />
+            </div>
 
-          <div>
-            <button type="submit">Login</button>
+            <div>
+              <button type="submit" className="btn">
+                <FontAwesomeIcon icon="sign-in-alt" />
+                ‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎ ‎Login
+              </button>
+            </div>
           </div>
         </form>
       </div>
