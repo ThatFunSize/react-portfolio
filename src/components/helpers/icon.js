@@ -6,6 +6,9 @@ import {
   faCircleNotch,
   faPlusSquare,
   faSignInAlt,
+  faPhoneSquareAlt,
+  faEnvelopeSquare,
+  faMapMarkedAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
@@ -17,7 +20,10 @@ const Icons = () => {
     faBan,
     faCircleNotch,
     faPlusSquare,
-    faSignInAlt
+    faSignInAlt,
+    faPhoneSquareAlt,
+    faEnvelopeSquare,
+    faMapMarkedAlt
   );
 };
 

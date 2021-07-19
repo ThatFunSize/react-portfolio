@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import DropzoneComponent from 'react-dropzone-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import DeleteImage from '../helpers/image-delete';
 
 import '../../../node_modules/react-dropzone-component/styles/filepicker.css';
 import '../../../node_modules/dropzone/dist/min/dropzone.min.css';
@@ -31,27 +32,18 @@ export default class PortfolioForm extends Component {
     this.handleThumbDrop = this.handleThumbDrop.bind(this);
     this.handleBannerDrop = this.handleBannerDrop.bind(this);
     this.handleLogoDrop = this.handleLogoDrop.bind(this);
-    this.deleteImage = this.deleteImage.bind(this);
+    this.handlePortfolioImageDelete =
+      this.handlePortfolioImageDelete.bind(this);
 
     this.thumbRef = React.createRef();
     this.bannerRef = React.createRef();
     this.logoRef = React.createRef();
   }
 
-  deleteImage(imageType) {
-    axios
-      .delete(
-        `https://api.devcamp.space/portfolio/delete-portfolio-image/${this.state.id}?image_type=${imageType}`,
-        { withCredentials: true }
-      )
-      .then(response => {
-        this.setState({
-          [`${imageType}_url`]: '',
-        });
-      })
-      .catch(error => {
-        console.log('deleteImage error', error);
-      });
+  handlePortfolioImageDelete(imageType) {
+    this.setState({
+      [`${imageType}_url`]: '',
+    });
   }
 
   componentDidUpdate() {
@@ -245,11 +237,12 @@ export default class PortfolioForm extends Component {
             <div className="portfolio-manager-img-wrapper">
               <img src={this.state.thumb_image_url} />
 
-              <div className="image-removal-link">
-                <a onClick={() => this.deleteImage('thumb_image')}>
-                  <FontAwesomeIcon icon="ban" />‍ Remove
-                </a>
-              </div>
+              <DeleteImage
+                deleteLink={'delete-portfolio-image'}
+                id={this.state.id}
+                imageType={'thumb_image'}
+                handleDeleteImage={this.handlePortfolioImageDelete}
+              />
             </div>
           ) : (
             <DropzoneComponent
@@ -266,11 +259,12 @@ export default class PortfolioForm extends Component {
             <div className="portfolio-manager-img-wrapper">
               <img src={this.state.banner_image_url} />
 
-              <div className="image-removal-link">
-                <a onClick={() => this.deleteImage('banner_image')}>
-                  <FontAwesomeIcon icon="ban" />‍ Remove
-                </a>
-              </div>
+              <DeleteImage
+                deleteLink={'delete-portfolio-image'}
+                id={this.state.id}
+                imageType={'banner_image'}
+                handleDeleteImage={this.handlePortfolioImageDelete}
+              />
             </div>
           ) : (
             <DropzoneComponent
@@ -287,11 +281,12 @@ export default class PortfolioForm extends Component {
             <div className="portfolio-manager-img-wrapper">
               <img src={this.state.logo_url} />
 
-              <div className="image-removal-link">
-                <a onClick={() => this.deleteImage('logo')}>
-                  <FontAwesomeIcon icon="ban" />‍ Remove
-                </a>
-              </div>
+              <DeleteImage
+                deleteLink={'delete-portfolio-image'}
+                id={this.state.id}
+                imageType={'logo'}
+                handleDeleteImage={this.handlePortfolioImageDelete}
+              />
             </div>
           ) : (
             <DropzoneComponent
