@@ -63,33 +63,33 @@ export default class Login extends Component {
 
         <div>{this.state.errorText}</div>
 
-        <form onSubmit={this.handleSubmit}>
-          <div className="portfolio-form-wrapper">
-            <div className="two-column">
-              <input
-                type="email"
-                name="email"
-                placeholder="Your email"
-                value={this.state.email}
-                onChange={this.handleChange}
-              />
-
-              <input
-                type="password"
-                name="password"
-                placeholder="Your password"
-                value={this.state.password}
-                onChange={this.handleChange}
-              />
-            </div>
-
-            <div>
-              <button type="submit" className="btn">
-                <FontAwesomeIcon icon="sign-in-alt" />
-                ‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎ ‎Login
-              </button>
-            </div>
+        <form onSubmit={this.handleSubmit} className="auth-form-wrapper">
+          <div className="form-group">
+            <FontAwesomeIcon icon="envelope" />
+            <input
+              type="email"
+              name="email"
+              placeholder="Your email"
+              value={this.state.email}
+              onChange={this.handleChange}
+            />
           </div>
+
+          <div className="form-group">
+            <FontAwesomeIcon icon="lock" />
+            <input
+              type="password"
+              name="password"
+              placeholder="Your password"
+              value={this.state.password}
+              onChange={this.handleChange}
+            />
+          </div>
+
+          <button type="submit" className="btn">
+            <FontAwesomeIcon icon="sign-in-alt" />
+            ‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎ ‎Login
+          </button>
         </form>
       </div>
     );
